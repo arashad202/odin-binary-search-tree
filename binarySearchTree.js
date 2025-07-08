@@ -128,4 +128,45 @@ class BinarySearchTree {
 
 let myArray = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
 let myBST = new BinarySearchTree(myArray);
+
+console.log("Initial Tree:");
 myBST.prettyPrint();
+
+// Insert a new value
+console.log("\nInserting 10...");
+myBST.insert(10);
+myBST.prettyPrint();
+
+// Try inserting a duplicate (should not change the tree)
+console.log("\nInserting duplicate value 23...");
+myBST.insert(23);
+myBST.prettyPrint();
+
+// Delete a leaf node
+console.log("\nDeleting leaf node 1...");
+myBST.deleteItem(1);
+myBST.prettyPrint();
+
+// Delete a node with one child
+console.log("\nDeleting node 3 (has one child)...");
+myBST.deleteItem(3);
+myBST.prettyPrint();
+
+// Delete a node with two children
+console.log("\nDeleting node 4 (has two children)...");
+myBST.deleteItem(4);
+myBST.prettyPrint();
+
+// Search for a value
+console.log("\nSearching for 10...");
+let foundNode = myBST.find(10);
+console.log(
+  foundNode ? `Found node with data: ${foundNode.data}` : "Node not found."
+);
+
+// Search for a value that doesn’t exist
+console.log("\nSearching for 999...");
+foundNode = myBST.find(999);
+console.log(
+  foundNode ? `Found node with data: ${foundNode.data}` : "Node not found."
+);
