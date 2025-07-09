@@ -270,6 +270,29 @@ class BinarySearchTree {
 
     return null;
   }
+
+  // is balanced helper
+  isBalancedHelper(node) {
+    if (!node) return { height: 0, balanced: true };
+
+    const left = this.isBalancedHelper(node.leftNode);
+    const right = this.isBalancedHelper(node.rightNode);
+
+    const balanced =
+      left.balanced &&
+      right.balanced &&
+      Math.abs(left.height - right.height) <= 1;
+
+    return {
+      height: 1 + Math.max(left.height, right.height),
+      balanced,
+    };
+  }
+
+  // is balanced
+  isBalanced() {
+    return this.isBalancedHelper(this.root).balanced;
+  }
 }
 
 let myArray = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
