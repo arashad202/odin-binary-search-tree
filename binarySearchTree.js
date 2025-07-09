@@ -150,31 +150,28 @@ class BinarySearchTree {
 
   // function to perform level order traversal with call back only
   levelOrder(cb) {
+    if (typeof cb !== "function") {
+      throw new Error("A callback function is required");
+    }
     this.levelOrderIter(this.root, cb);
   }
 
   // recursive implementation
   levelOrderRecursive(root, callback) {
-    if (typeof callback !== "function") {
-      throw new Error("A callback function is required");
-    }
-
     if (!root) return;
 
-    // First, compute height to know how many levels
     function height(node) {
       if (!node) return 0;
-      return 1 + Math.max(height(node.left), height(node.right));
+      return 1 + Math.max(height(node.leftNode), height(node.rightNode));
     }
 
-    // Print nodes at a given level
     function visitLevel(node, level) {
       if (!node) return;
       if (level === 1) {
         callback(node);
       } else {
-        visitLevel(node.left, level - 1);
-        visitLevel(node.right, level - 1);
+        visitLevel(node.leftNode, level - 1);
+        visitLevel(node.rightNode, level - 1);
       }
     }
 
@@ -185,7 +182,59 @@ class BinarySearchTree {
   }
 
   levelOrderR(cb) {
+    if (typeof cb !== "function") {
+      throw new Error("A callback function is required");
+    }
     this.levelOrderRecursive(this.root, cb);
+  }
+
+  // in order
+  // in order helper
+  inOrderHelper(root, cb) {
+    if (root == null) return;
+    this.inOrderHelper(root.leftNode, cb);
+    cb(root.data);
+    this.inOrderHelper(root.rightNode, cb);
+  }
+
+  // in order
+  inOrder(cb) {
+    if (typeof cb !== "function") {
+      throw new Error("A callback function is required");
+    }
+    this.inOrderHelper(this.root, cb);
+  }
+
+  // pre order helper
+  preOrderHelper(root, cb) {
+    if (root == null) return;
+    cb(root.data);
+    this.preOrderHelper(root.leftNode, cb);
+    this.preOrderHelper(root.rightNode, cb);
+  }
+
+  // pre order
+  preOrder(cb) {
+    if (typeof cb !== "function") {
+      throw new Error("A callback function is required");
+    }
+    this.preOrderHelper(this.root, cb);
+  }
+
+  // post order helper
+  postOrderHelper(root, cb) {
+    if (root == null) return;
+    this.postOrderHelper(root.leftNode, cb);
+    this.postOrderHelper(root.rightNode, cb);
+    cb(root.data);
+  }
+
+  // pre order
+  postOrder(cb) {
+    if (typeof cb !== "function") {
+      throw new Error("A callback function is required");
+    }
+    this.postOrderHelper(this.root, cb);
   }
 }
 
@@ -234,8 +283,21 @@ console.log(
   foundNode ? `Found node with data: ${foundNode.data}` : "Node not found."
 );
 
+// breadth first examples
 console.log("\n📚 Level Order Traversal (Iterative):");
 myBST.levelOrder((node) => console.log(node.data));
 
 console.log("\n📚 Level Order Traversal (Recursive):");
 myBST.levelOrderR((node) => console.log(node.data));
+
+// In-Order Traversal Example
+console.log("\n📚 In-Order Traversal:");
+myBST.inOrder((data) => console.log(data));
+
+// Pre-Order Traversal Example
+console.log("\n📚 Pre-Order Traversal:");
+myBST.preOrder((data) => console.log(data));
+
+// Post-Order Traversal Example
+console.log("\n📚 Post-Order Traversal:");
+myBST.postOrder((data) => console.log(data));
