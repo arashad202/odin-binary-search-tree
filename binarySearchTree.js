@@ -236,6 +236,26 @@ class BinarySearchTree {
     }
     this.postOrderHelper(this.root, cb);
   }
+
+  // height helper
+  heightHelper(node) {
+    if (!node) return -1;
+    return (
+      1 +
+      Math.max(
+        this.heightHelper(node.leftNode),
+        this.heightHelper(node.rightNode)
+      )
+    );
+  }
+
+  // height from root to leaf
+  height(value) {
+    const node = this.find(value);
+    if (!node) return null;
+
+    return this.heightHelper(node);
+  }
 }
 
 let myArray = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
