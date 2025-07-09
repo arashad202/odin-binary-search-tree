@@ -302,66 +302,71 @@ class BinarySearchTree {
   }
 }
 
-let myArray = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
-let myBST = new BinarySearchTree(myArray);
+// ✅ DRIVER SCRIPT
 
-console.log("Initial Tree:");
-myBST.prettyPrint();
+function randomArray(size, max = 100) {
+  return Array.from({ length: size }, () => Math.floor(Math.random() * max));
+}
 
-// Insert a new value
-console.log("\nInserting 10...");
-myBST.insert(10);
-myBST.prettyPrint();
+const initialArray = randomArray(15);
+const tree = new BinarySearchTree(initialArray);
 
-// Try inserting a duplicate (should not change the tree)
-console.log("\nInserting duplicate value 23...");
-myBST.insert(23);
-myBST.prettyPrint();
+console.log("🌳 Initial Tree:");
+tree.prettyPrint();
 
-// Delete a leaf node
-console.log("\nDeleting leaf node 1...");
-myBST.deleteItem(1);
-myBST.prettyPrint();
+console.log("\n✅ Is balanced?", tree.isBalanced());
 
-// Delete a node with one child
-console.log("\nDeleting node 3 (has one child)...");
-myBST.deleteItem(3);
-myBST.prettyPrint();
+console.log("\n📦 Level Order:");
+tree.levelOrder((val) => console.log(val));
 
-// Delete a node with two children
-console.log("\nDeleting node 4 (has two children)...");
-myBST.deleteItem(4);
-myBST.prettyPrint();
+console.log("\n📦 Pre Order:");
+tree.preOrder((val) => console.log(val));
 
-// Search for a value
-console.log("\nSearching for 10...");
-let foundNode = myBST.find(10);
-console.log(
-  foundNode ? `Found node with data: ${foundNode.data}` : "Node not found."
-);
+console.log("\n📦 In Order:");
+tree.inOrder((val) => console.log(val));
 
-// Search for a value that doesn’t exist
-console.log("\nSearching for 999...");
-foundNode = myBST.find(999);
-console.log(
-  foundNode ? `Found node with data: ${foundNode.data}` : "Node not found."
-);
+console.log("\n📦 Post Order:");
+tree.postOrder((val) => console.log(val));
 
-// breadth first examples
-console.log("\n📚 Level Order Traversal (Iterative):");
-myBST.levelOrder((node) => console.log(node.data));
+// Unbalance the tree
+console.log("\n⚠️ Unbalancing the tree...");
+tree.insert(120);
+tree.insert(130);
+tree.insert(140);
+tree.insert(150);
+tree.insert(160);
 
-console.log("\n📚 Level Order Traversal (Recursive):");
-myBST.levelOrderR((node) => console.log(node.data));
+console.log("\n🌲 Unbalanced Tree:");
+tree.prettyPrint();
 
-// In-Order Traversal Example
-console.log("\n📚 In-Order Traversal:");
-myBST.inOrder((data) => console.log(data));
+console.log("\n❌ Is balanced?", tree.isBalanced());
 
-// Pre-Order Traversal Example
-console.log("\n📚 Pre-Order Traversal:");
-myBST.preOrder((data) => console.log(data));
+// Rebalance
+console.log("\n🔁 Rebalancing tree...");
+tree.reBalance();
 
-// Post-Order Traversal Example
-console.log("\n📚 Post-Order Traversal:");
-myBST.postOrder((data) => console.log(data));
+console.log("\n🌳 Rebalanced Tree:");
+tree.prettyPrint();
+
+console.log("\n✅ Is balanced?", tree.isBalanced());
+
+console.log("\n📦 Level Order:");
+tree.levelOrder((val) => console.log(val));
+
+console.log("\n📦 Pre Order:");
+tree.preOrder((val) => console.log(val));
+
+console.log("\n📦 In Order:");
+tree.inOrder((val) => console.log(val));
+
+console.log("\n📦 Post Order:");
+tree.postOrder((val) => console.log(val));
+
+// Height and depth examples
+const sample = tree.root.data;
+console.log(`\n📏 Height of root (${sample}):`, tree.height(sample));
+console.log(`📐 Depth of root (${sample}):`, tree.depth(sample));
+
+const testLeaf = 120;
+console.log(`\n📏 Height of ${testLeaf}:`, tree.height(testLeaf));
+console.log(`📐 Depth of ${testLeaf}:`, tree.depth(testLeaf));
