@@ -256,6 +256,20 @@ class BinarySearchTree {
 
     return this.heightHelper(node);
   }
+
+  // depth from root to leaf
+  depth(value) {
+    let depth = 0;
+    let current = this.root;
+
+    while (current) {
+      if (value == current.data) return depth;
+      current = value < current.data ? current.leftNode : current.rightNode;
+      depth++;
+    }
+
+    return null;
+  }
 }
 
 let myArray = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
