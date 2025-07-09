@@ -124,6 +124,69 @@ class BinarySearchTree {
     if (value < node.data) return this.findValue(value, node.leftNode);
     return this.findValue(value, node.rightNode);
   }
+
+  // Breadth first traversal
+  // iterative implementation
+
+  // helper function
+  levelOrderIter(root, cb) {
+    // base case if node is null return
+    if (root === null) return;
+
+    // initialize queue
+    const queue = [root];
+
+    while (queue.length > 0) {
+      // dequeue the next node
+      const node = queue.shift();
+      // run the callback on the node
+      cb(node);
+
+      // enqueue its children
+      if (node.leftNode) queue.push(node.leftNode);
+      if (node.rightNode) queue.push(node.rightNode);
+    }
+  }
+
+  // function to perform level order traversal with call back only
+  levelOrder(cb) {
+    this.levelOrderIter(this.root, cb);
+  }
+
+  // recursive implementation
+  levelOrderRecursive(root, callback) {
+    if (typeof callback !== "function") {
+      throw new Error("A callback function is required");
+    }
+
+    if (!root) return;
+
+    // First, compute height to know how many levels
+    function height(node) {
+      if (!node) return 0;
+      return 1 + Math.max(height(node.left), height(node.right));
+    }
+
+    // Print nodes at a given level
+    function visitLevel(node, level) {
+      if (!node) return;
+      if (level === 1) {
+        callback(node);
+      } else {
+        visitLevel(node.left, level - 1);
+        visitLevel(node.right, level - 1);
+      }
+    }
+
+    const h = height(root);
+    for (let i = 1; i <= h; i++) {
+      visitLevel(root, i);
+    }
+  }
+
+  levelOrderR(cb) {
+    this.levelOrderRecursive(this.root, cb);
+  }
 }
 
 let myArray = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
@@ -170,3 +233,9 @@ foundNode = myBST.find(999);
 console.log(
   foundNode ? `Found node with data: ${foundNode.data}` : "Node not found."
 );
+
+console.log("\n📚 Level Order Traversal (Iterative):");
+myBST.levelOrder((node) => console.log(node.data));
+
+console.log("\n📚 Level Order Traversal (Recursive):");
+myBST.levelOrderR((node) => console.log(node.data));
